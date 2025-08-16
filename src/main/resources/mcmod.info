@@ -1,18 +1,18 @@
 {
-    "modListVersion": 2,
-    "modList": [
-        {
-            "modid": "charset",
-            "name": "Charset",
-            "version": "${version}",
-            "mcversion": "${mcversion}",
-            "description": "Arrange Your Experience",
-            "authorList": [
-                "asiekierka"
-            ],
-            "url": "http://charset.asie.pl",
-            "updateUrl": "http://charset.asie.pl/update.json",
-            "logoFile": "assets/charset/textures/items/icon.png"
-        }
-    ]
+  "modListVersion": 2,
+  "modList": [
+    {
+      "modid": "charset",
+      "name": "Charset",
+      "version": "${version}",
+      "mcversion": "1.12.2",
+      "description": "Arrange Your Experience",
+      "authorList": [
+        "asiekierka"
+      ],
+      "url": "http://charset.asie.pl",
+      "updateUrl": "http://charset.asie.pl/update.json",
+      "logoFile": "assets/charset/textures/items/icon.png"
+    }
+  ]
 }

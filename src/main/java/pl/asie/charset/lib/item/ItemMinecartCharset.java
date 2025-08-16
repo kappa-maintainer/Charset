@@ -20,7 +20,7 @@
 package pl.asie.charset.lib.item;
 
 import com.mojang.authlib.GameProfile;
-import mods.railcraft.api.core.items.IMinecartItem;
+import mods.railcraft.api.items.IMinecartItem;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.state.IBlockState;
@@ -40,9 +40,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
-import pl.asie.charset.ModCharset;
 
-@Optional.Interface(iface = "mods.railcraft.api.core.items.IMinecartItem", modid = "Railcraft")
+@Optional.Interface(iface = "mods.railcraft.api.items.IMinecartItem", modid = "railcraft")
 public abstract class ItemMinecartCharset extends ItemMinecart implements IMinecartItem, ISubItemProvider.Container {
     private static final IBehaviorDispenseItem MINECART_DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem() {
         private final BehaviorDefaultDispenseItem behaviourDefaultDispenseItem = new BehaviorDefaultDispenseItem();
@@ -112,6 +111,7 @@ public abstract class ItemMinecartCharset extends ItemMinecart implements IMinec
     }
 
     @Override
+    @Optional.Method(modid = "railcraft")
     public boolean canBePlacedByNonPlayer(ItemStack cart) {
         return true;
     }

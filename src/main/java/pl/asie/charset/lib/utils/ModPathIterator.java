@@ -22,6 +22,7 @@ package pl.asie.charset.lib.utils;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
@@ -56,7 +57,7 @@ public final class ModPathIterator {
 							paths.add(Pair.of(container.getModId(), f.toPath()));
 						}
 					} else {
-						FileSystem fileSystem = FileSystems.newFileSystem(file.toPath(), null);
+						FileSystem fileSystem = FileSystems.newFileSystem(file.toPath(), Launch.classLoader);
 						Path p = fileSystem.getPath(prefix.replaceAll("%1", container.getModId()));
 						if (Files.exists(p)) {
 							paths.add(Pair.of(container.getModId(), p));

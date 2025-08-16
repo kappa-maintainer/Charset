@@ -21,11 +21,10 @@ package pl.asie.charset.module.tablet.format.routers;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import pl.asie.charset.ModCharset;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpResponse;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 import pl.asie.charset.module.tablet.format.parsers.WikiParser;
@@ -59,8 +58,8 @@ public class RouterDokuWiki implements IRouterSearchable {
 			HttpClient client = TabletUtil.createHttpClient();
 			HttpGet request = new HttpGet(uri);
 
-			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().getStatusCode() == 200) {
+			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+			if (response.getCode() == 200) {
 				WikiParser mediaWikiData = new WikiParser(
 						new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8),
 						WikiParser.Type.DOKUWIKI
@@ -73,7 +72,7 @@ public class RouterDokuWiki implements IRouterSearchable {
 					}
 				}
 			} else {
-				err = err + "ERROR: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase() + "\n\n";
+				err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,8 +95,8 @@ public class RouterDokuWiki implements IRouterSearchable {
 			HttpClient client = TabletUtil.createHttpClient();
 			HttpGet request = new HttpGet(uri);
 
-			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().getStatusCode() == 200) {
+			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+			if (response.getCode() == 200) {
 				// No API? No way!
 				String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8);
 				int i = data.indexOf("search_results");

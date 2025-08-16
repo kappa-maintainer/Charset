@@ -27,7 +27,6 @@ import pl.asie.charset.module.tablet.format.api.ICommand;
 import pl.asie.charset.module.tablet.format.api.ITypesetter;
 import pl.asie.charset.module.tablet.format.api.TruthError;
 import pl.asie.charset.module.tablet.format.words.WordImage;
-import scala.Int;
 
 public class CommandImg implements ICommand {
 	@Override

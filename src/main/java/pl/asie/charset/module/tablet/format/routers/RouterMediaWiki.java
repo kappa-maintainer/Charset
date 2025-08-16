@@ -23,17 +23,20 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import pl.asie.charset.ModCharset;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpException;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 import pl.asie.charset.module.tablet.format.parsers.WikiParser;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class RouterMediaWiki implements IRouterSearchable {
@@ -71,10 +74,10 @@ public class RouterMediaWiki implements IRouterSearchable {
 				HttpClient client = TabletUtil.createHttpClient();
 				HttpGet request = new HttpGet(uri);
 
-				HttpResponse response = client.execute(request);
-				if (response.getStatusLine().getStatusCode() == 200) {
+				ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+				if (response.getCode() == 200) {
 					WikiParser mediaWikiData = new WikiParser(
-							new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8),
+							new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8),
 							WikiParser.Type.MEDIAWIKI
 					);
 					if (mediaWikiData.shouldRetain()) {
@@ -85,7 +88,7 @@ public class RouterMediaWiki implements IRouterSearchable {
 						}
 					}
 				} else {
-					err = err + "ERROR: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase() + "\n\n";
+					err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -112,9 +115,9 @@ public class RouterMediaWiki implements IRouterSearchable {
 				HttpClient client = TabletUtil.createHttpClient();
 				HttpGet request = new HttpGet(uri);
 
-				HttpResponse response = client.execute(request);
-				if (response.getStatusLine().getStatusCode() == 200) {
-					String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8);
+				ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+				if (response.getCode() == 200) {
+					String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8);
 					JsonArray array = new JsonParser().parse(data).getAsJsonArray();
 					if (array.size() == 4) {
 						JsonArray names = array.get(1).getAsJsonArray();

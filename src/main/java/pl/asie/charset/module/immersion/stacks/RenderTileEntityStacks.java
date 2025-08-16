@@ -19,7 +19,6 @@
 
 package pl.asie.charset.module.immersion.stacks;
 
-import akka.japi.Function;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -49,6 +48,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class RenderTileEntityStacks implements IBakedModel, IStateParticleBakedModel {
 	private static final int[][][] QUAD_ORDERS;

@@ -21,22 +21,16 @@ package pl.asie.charset.module.tablet.format.routers;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import pl.asie.charset.ModCharset;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.HttpResponse;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouter;
-import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 import pl.asie.charset.module.tablet.format.parsers.MarkdownParser;
-import pl.asie.charset.module.tablet.format.parsers.WikiParser;
 
 import javax.annotation.Nullable;
 import java.net.URI;
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class RouterCoFH implements IRouter {
 	private final String host = "https://raw.githubusercontent.com/CoFH/cofh.github.io/master";
@@ -61,12 +55,12 @@ public class RouterCoFH implements IRouter {
 			HttpClient client = TabletUtil.createHttpClient();
 			HttpGet request = new HttpGet(uri);
 
-			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().getStatusCode() == 200) {
+			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
+			if (response.getCode() == 200) {
 				MarkdownParser parser = new MarkdownParser();
 				return parser.parse(new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8));
 			} else {
-				err = err + "ERROR: " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase() + "\n\n";
+				err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

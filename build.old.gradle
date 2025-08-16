@@ -1,0 +1,247 @@
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name = "forge"
+			url = "https://files.minecraftforge.net/maven"
+		}
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+		classpath "gradle.plugin.net.minecrell:licenser:0.3"
+	}
+}
+
+apply plugin: 'maven'
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'net.minecrell.licenser'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+version = "0.5.6.6"
+group = "pl.asie.charset"
+archivesBaseName = "Charset"
+
+if (System.getenv("BUILD_NUMBER") != null)
+	version += ".${System.getenv("BUILD_NUMBER")}"
+
+configurations {
+	deploy
+}
+
+dependencies {
+	deploy 'org.apache.maven.wagon:wagon-ssh:2.10'
+}
+
+minecraft {
+	version = "1.12.2-14.23.5.2847"
+
+	runDir = "run"
+	useDepAts = true
+	makeObfSourceJar = false
+	mappings = "stable_39"
+
+	replace '@VERSION@', project.version
+	replace '@MC_VERSION@', version
+}
+
+repositories {
+	mavenCentral()
+	maven {
+		url 'https://maven.tehnut.info/'
+	}
+	maven { url "http://maven.amadornes.com/" }
+	maven {
+		name 'DVS1 Maven FS'
+		url 'http://dvs1.progwml6.com/files/maven'
+	}
+	maven {
+		name 'Sonatype OSSRH (Snapshots)'
+		url 'https://oss.sonatype.org/content/repositories/snapshots/'
+	}
+	maven {
+		name "Mighty Pirates"
+		url "http://maven.cil.li"
+	}
+	maven {
+		url "http://repo.elytradev.com"
+	}
+	maven {
+		name "BuildCraft"
+		url = "https://mod-buildcraft.com/maven"
+	}
+	maven {
+		url "http://maven.blamejared.com/"
+	}
+	maven {
+		url "http://maven.k-4u.nl"
+	}
+	ivy {
+		name 'asie dependency mirror'
+		artifactPattern "http://asie.pl/javadeps/[module]-[revision](-[classifier]).[ext]"
+	}
+//	ivy {
+//		name 'ibxm'
+//		artifactPattern "https://github.com/martincameron/micromod/raw/master/[module]-[revision].[ext]"
+//	}
+}
+
+license {
+	sourceSets = [project.sourceSets.main]
+	header = project.file("docs/licenses/LICENSE")
+	ignoreFailures = true
+	exclude '**/*.ogg'
+	exclude '**/*.lang'
+	exclude '**/*.info'
+	exclude '**/*.mcmeta'
+
+	matching('**/pl/asie/charset/api/**') {
+		header = project.file("docs/licenses/LICENSE-API")
+	}
+}
+
+configurations {
+	shadow
+	compile.extendsFrom shadow
+}
+
+dependencies {
+	// shadows
+	shadow name: "libresample4j", version: "bc0a030"
+//	shadow name: "ibxm", version: "a73"
+
+	// APIs
+	deobfProvided name: "appliedenergistics2", version: "rv6-stable-7"
+	deobfProvided name: "Baubles", version: "1.12-1.5.2"
+	deobfProvided "com.mod-buildcraft:buildcraft-api:7.99.24.6"
+	deobfProvided name: "chiselsandbits", version: "14.33"
+	deobfProvided name: "CommonCapabilities", version: "1.12.2-2.4.8"
+	deobfProvided name: "CyclopsCore", version: "1.12.2-1.6.7"
+	deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.592"
+	deobfProvided name: "Guide-API", version: "1.12-2.1.8-63"
+	deobfProvided "mcp.mobius.waila:Hwyla:1.8.26-B41_1.12.2:api"
+	deobfProvided name: "infraredstone", version: "1.12.2-1.2.104-api"
+	deobfProvided name: "InventoryTweaks", version: "1.63-api"
+	deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
+	deobfCompile "MCMultiPart2:MCMultiPart-exp:2.5.3_73"
+	deobfProvided "li.cil.oc:OpenComputers:MC1.12.2-1.7.5.+:api"
+	deobfProvided name: "theoneprobe", version: "1.12-1.4.19-api"
+	deobfProvided "li.cil.tis3d:TIS-3D:MC1.12.2-1.5.1.+:api"
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDirs += 'lang'
+			srcDirs += 'docs'
+		}
+	}
+}
+
+processResources {
+	// this will ensure that this task is redone when the versions change.
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	// replace stuff in mcmod.info, nothing else
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+
+	// copy everything else, thats not the mcmod.info
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+
+jar.dependsOn shadowJar
+jar.enabled = false
+
+jar {
+	classifier = "full"
+}
+
+task charsetJar(type: Jar) {
+	baseName = "Charset"
+	classifier = ""
+}
+shadowJar {
+	classifier = "full"
+	archiveName = tasks.jar.archiveName
+	configurations = [project.configurations.shadow]
+	relocate 'com.laszlosystems.libresample4j', 'pl.asie.charset.module.audio.storage.libresample4j'
+//	relocate 'ibxm', 'pl.asie.charset.module.audio.storage.ibxm'
+}
+
+task shadowJarNonFull(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+        baseName = "Charset"
+        classifier = ""
+	archiveName = tasks.charsetJar.archiveName
+	configurations = [project.configurations.shadow]
+	relocate 'com.laszlosystems.libresample4j', 'pl.asie.charset.module.audio.storage.libresample4j'
+
+	from(sourceSets.main.output) {
+		include "META-INF/**"
+		include "assets/charset/**"
+		include "assets/simplelogic/**"
+		include "licenses/**"
+		include "pl/asie/charset/**"
+		include "mcmod.info"
+		include "pack.mcmeta"
+	}
+}
+
+task simplelogicJar(type: Jar) {
+	baseName = "SimpleLogic"
+	classifier = ""
+	from(sourceSets.main.output) {
+		include "META-INF/MANIFEST.MF"
+		include "licenses/**"
+		include "pl/asie/simplelogic/**"
+		include "pack.mcmeta"
+	}
+}
+
+reobf {
+	charsetJar {
+	}
+	simplelogicJar {
+		classpath += sourceSets.main.output
+	}
+}
+
+reobfJar {
+	setJar(tasks.shadowJar.archivePath)
+}
+
+reobfCharsetJar {
+	setJar(tasks.shadowJarNonFull.archivePath)
+}
+
+reobfJar.dependsOn shadowJar
+reobfCharsetJar.dependsOn shadowJarNonFull
+
+task apiJar(type: Jar) {
+	classifier = "api"
+	from(sourceSets.main.output) {
+		include "pl/asie/charset/api/**"
+		include "licenses/**"
+	}
+}
+
+artifacts {
+	archives apiJar, simplelogicJar
+}
+
+if (file('private.gradle').exists()) {
+	apply from: 'private.gradle'
+}

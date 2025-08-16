@@ -19,37 +19,30 @@
 
 package pl.asie.charset.module.tablet;
 
-import com.google.common.base.Charsets;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import pl.asie.charset.ModCharset;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public final class TabletUtil {
 	private TabletUtil() {
 
 	}
 
+    private static final HttpClient client = HttpClientBuilder.create().setUserAgent("Charset/" + ModCharset.VERSION + " (tablet)").build();
+
 	public static HttpClient createHttpClient() {
-		return HttpClientBuilder.create().setUserAgent("Charset/" + ModCharset.VERSION + " (tablet)").build();
+		return client;
 	}
 
 	public static String encode(String s) {
-		try {
-			return URLEncoder.encode(s, Charsets.UTF_8.name()).replaceAll("\\+", "%20");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        return URLEncoder.encode(s, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+    }
 
 	public static String decode(String s) {
-		try {
-			return URLDecoder.decode(s, Charsets.UTF_8.name());
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        return URLDecoder.decode(s, StandardCharsets.UTF_8);
+    }
 }

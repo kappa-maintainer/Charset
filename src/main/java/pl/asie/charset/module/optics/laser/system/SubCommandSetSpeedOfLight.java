@@ -38,7 +38,7 @@ public class SubCommandSetSpeedOfLight extends SubCommand {
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
 		if (args.length >= 1) {
-			int value = new Integer(args[0]);
+			int value = Integer.parseInt(args[0]);
 			if (value > 0) {
 				LaserWorldStorageServer.IS_LAZY = true;
 				LaserWorldStorageServer.LAZY_LIGHT_DELAY = value - 1;

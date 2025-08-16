@@ -19,7 +19,6 @@
 
 package pl.asie.charset.module.transport.dyeableMinecarts;
 
-import akka.util.Reflect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
@@ -148,7 +147,7 @@ public class CharsetTransportDyeableMinecarts {
 	}
 
 	@SubscribeEvent
-	public void onAttachCapabilities(AttachCapabilitiesEvent event) {
+	public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof EntityMinecart) {
 			event.addCapability(MINECART_DYEABLE_KEY, new CapabilityProvider());
 		}

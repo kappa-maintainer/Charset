@@ -75,9 +75,9 @@ public class Colorspaces {
 
 				for (int i = 0; i < path.length - 1; i++) {
 					if (function == null) {
-						function = conversionGraph.edgeValue(path[i], path[i + 1]);
+						function = conversionGraph.edgeValue(path[i], path[i + 1]).get();
 					} else {
-						function = conversionGraph.edgeValue(path[i], path[i + 1]).compose(function);
+						function = conversionGraph.edgeValue(path[i], path[i + 1]).get().compose(function);
 					}
 				}
 

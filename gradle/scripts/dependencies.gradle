@@ -1,0 +1,121 @@
+apply from: 'gradle/scripts/helpers.gradle'
+
+repositories {
+    // Other repositories described by default:
+    // CleanroomMC: https://maven.cleanroommc.com
+    maven {
+        name 'CurseMaven'
+        url 'https://cursemaven.com'
+    }
+    maven {
+        name 'CurseMavenFallback'
+        url 'https://curse.cleanroommc.com'
+    }
+    maven {
+        name 'Modrinth'
+        url 'https://api.modrinth.com/maven'
+    }
+    maven {
+        name 'Cleanroom'
+        url "https://repo.cleanroommc.com/releases"
+    }
+
+    mavenLocal() // Must be last for caching to work
+    mavenCentral()
+    maven {
+        name "Mighty Pirates"
+        url "https://maven.cil.li"
+    }
+    maven {
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'Sonatype OSSRH (Snapshots)'
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+    maven {
+        url "https://repo.elytradev.com"
+    }
+    maven {
+        name "BuildCraft"
+        url = "https://mod-buildcraft.com/maven"
+    }
+    maven {
+        url "https://maven.blamejared.com/"
+    }
+    maven {
+        url "https://maven.k-4u.nl"
+    }
+    ivy {
+        name 'asie dependency mirror'
+        artifactPattern "http://asie.pl/javadeps/[module]-[revision](-[classifier]).[ext]"
+        metadataSources {
+            ivyDescriptor() // Look for ivy.xml
+            artifact()      // Extract metadata from the artifact itself
+        }
+    }
+}
+
+dependencies {
+    implementation "com.cleanroommc:sponge-mixin:0.20.10+mixin.0.8.7"
+    if (propertyBool('enable_lwjglx')) {
+        compileOnly "com.cleanroommc:lwjglx:1.0.0"
+    }
+
+    // shadows
+    //contain 'io.github.overplex:libresample4j:0.1.4'
+    contain name: "libresample4j", version: "bc0a030"
+//	shadow name: "ibxm", version: "a73"
+
+    // APIs
+    modImplementation 'curse.maven:ae2-extended-life-570458:6302098'
+    modImplementation 'curse.maven:bubbles-a-baubles-fork-995393:6807550'
+    modImplementation 'com.mod-buildcraft:buildcraft-api:8.0.0'
+    modImplementation 'curse.maven:chiselsandbits-231095:2720655'
+    modImplementation 'curse.maven:common-capabilities-247007:3053017'
+    modImplementation 'curse.maven:cyclops-core-232758:3159497'
+    modImplementation 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.705'
+    modImplementation 'curse.maven:guide-api-228832:2645992'
+    modImplementation 'mcp.mobius.waila:Hwyla:1.8.26-B41_1.12.2:api'
+    modImplementation 'curse.maven:infraredstone-298428:2643590'
+    modImplementation 'curse.maven:inventory-tweaks-223094:2923460'
+    modCompileOnly "mezz:jei:4.28.1"
+    modCompileOnly 'curse.maven:mcmultipart-239431:2615930'
+    modImplementation 'li.cil.oc:OpenComputers:MC1.12.2-1.7.5.+:api'
+    modImplementation 'maven.modrinth:the-one-probe:1.12-1.4.28'
+    modImplementation 'li.cil.tis3d:TIS-3D:MC1.12.2-1.5.1.+:api'
+    modImplementation 'curse.maven:railcraft-51195:3853491'
+
+    compileOnly 'com.typesafe:config:1.4.3'
+
+    // Example - Dependency descriptor:
+    // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
+    // 'group:name:version:classifier' where classifier is optional
+
+    // Example - CurseMaven dependencies:
+    // 'curse.maven:had-enough-items-557549:4543375' << had-enough-items = project slug, 557549 = project id, 4543375 = file id
+    // Full documentation: https://cursemaven.com/
+
+    // Example - Modrinth dependencies:
+    // 'maven.modrinth:jei:4.16.1.1000' << jei = project name, 4.16.1.1000 = file version
+    // Full documentation: https://docs.modrinth.com/docs/tutorials/maven/
+
+    // Common dependency types (configuration):
+    // implementation = dependency available at both compile time and runtime
+    // runtimeOnly = runtime dependency
+    // compileOnly = compile time dependency
+    // annotationProcessor = annotation processing dependencies
+    // contain = bundle dependency jars into final artifact, will extract them in mod loading. Please only do this to non-mod dependencies.
+    // shadow = bundle dependencies into shadow output artifact (relocation configurable in shadowJar task)
+    // modImplementation = mod dependency available at both compile time and runtime
+    // modCompileOnly = mod dependency available only at compile time
+
+    // Transitive dependencies:
+    // (Dependencies that your dependency depends on)
+    // If you wish to exclude transitive dependencies in the described dependencies
+    // Use a closure as such:
+    // implementation ('com.google.code.gson:gson:2.8.6') {
+    //     transitive = false
+    // }
+}

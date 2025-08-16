@@ -37,7 +37,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import pl.asie.charset.api.lib.IFluidExtraInformation;
 import pl.asie.charset.lib.misc.FluidBase;
 import pl.asie.charset.module.crafting.cauldron.CharsetCraftingCauldron;
-import scala.xml.dtd.EMPTY;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
