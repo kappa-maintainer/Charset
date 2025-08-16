@@ -32,6 +32,7 @@ import pl.asie.charset.module.tablet.format.parsers.MarkdownParser;
 
 import javax.annotation.Nullable;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 public class RouterCoFH implements IRouter {
 	private final String host = "https://raw.githubusercontent.com/CoFH/cofh.github.io/master";
@@ -59,7 +60,7 @@ public class RouterCoFH implements IRouter {
 			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
 			if (response.getCode() == 200) {
 				MarkdownParser parser = new MarkdownParser();
-				return parser.parse(new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8));
+				return parser.parse(new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8));
 			} else {
 				err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 			}

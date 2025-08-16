@@ -19,12 +19,10 @@
 
 package pl.asie.charset.module.tablet.format.routers;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.core5.http.ClassicHttpResponse;
-import org.apache.hc.core5.http.HttpResponse;
 import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouter;
@@ -33,6 +31,7 @@ import pl.asie.charset.module.tablet.format.parsers.MarkdownParser;
 
 import javax.annotation.Nullable;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 public class RouterGitHub implements IRouter {
 	private final String host, hostIngame;
@@ -62,7 +61,7 @@ public class RouterGitHub implements IRouter {
 			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
 			if (response.getCode() == 200) {
 				MarkdownParser parser = new GitHubMarkdownParser(host, pathCleaned.substring(1));
-				return parser.parse(new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8));
+				return parser.parse(new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8));
 			} else {
 				err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 			}

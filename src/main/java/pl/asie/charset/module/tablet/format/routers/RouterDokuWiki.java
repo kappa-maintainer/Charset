@@ -32,6 +32,7 @@ import pl.asie.charset.module.tablet.format.parsers.WikiParser;
 
 import javax.annotation.Nullable;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,7 +63,7 @@ public class RouterDokuWiki implements IRouterSearchable {
 			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
 			if (response.getCode() == 200) {
 				WikiParser mediaWikiData = new WikiParser(
-						new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8),
+						new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8),
 						WikiParser.Type.DOKUWIKI
 				);
 				if (mediaWikiData.shouldRetain()) {
@@ -99,7 +100,7 @@ public class RouterDokuWiki implements IRouterSearchable {
 			ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
 			if (response.getCode() == 200) {
 				// No API? No way!
-				String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), Charsets.UTF_8);
+				String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8);
 				int i = data.indexOf("search_results");
 				if (i >= 0) {
 					Matcher m = PATTERN.matcher(data.substring(i));

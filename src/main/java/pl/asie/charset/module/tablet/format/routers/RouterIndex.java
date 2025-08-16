@@ -42,7 +42,7 @@ public class RouterIndex implements IRouter {
 		try {
 			StringBuilder result = new StringBuilder("\\title{Tablet}\n\n");
 			for (Pair<String, String> book : TabletAPI.INSTANCE.getBooks()) {
-				result.append("\\- \\url{" + book.getRight() + "}{" + I18n.translateToLocal(book.getLeft()) + "}\n");
+				result.append("\\- \\url{").append(book.getRight()).append("}{").append(I18n.translateToLocal(book.getLeft())).append("}\n");
 			}
 
 			return result.toString().trim();

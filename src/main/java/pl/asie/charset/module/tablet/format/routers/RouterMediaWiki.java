@@ -119,7 +119,7 @@ public class RouterMediaWiki implements IRouterSearchable {
 				ClassicHttpResponse response = (ClassicHttpResponse) client.execute(request);
 				if (response.getCode() == 200) {
 					String data = new String(ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8);
-					JsonArray array = new JsonParser().parse(data).getAsJsonArray();
+					JsonArray array = JsonParser.parseString(data).getAsJsonArray();
 					if (array.size() == 4) {
 						JsonArray names = array.get(1).getAsJsonArray();
 						JsonArray urls = array.get(3).getAsJsonArray();

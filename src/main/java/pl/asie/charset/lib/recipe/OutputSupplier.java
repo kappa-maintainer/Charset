@@ -19,7 +19,6 @@
 
 package pl.asie.charset.lib.recipe;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -30,14 +29,12 @@ import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.utils.ModPathIterator;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.Map;
 
@@ -67,7 +64,7 @@ public class OutputSupplier {
     // TODO: Allow iterating over mod assets server-side generically (based on this code, no less - but also UCW!)
     private static void loadFactories(Pair<String, Path> p) {
         try {
-            BufferedReader reader = Files.newBufferedReader(p.getValue(), Charsets.UTF_8);
+            BufferedReader reader = Files.newBufferedReader(p.getValue(), StandardCharsets.UTF_8);
             JsonObject json = JsonUtils.fromJson(GSON, reader, JsonObject.class);
             if (json != null && json.has("charset:output_suppliers")) {
                 JsonObject object = JsonUtils.getJsonObject(json, "charset:output_suppliers");

@@ -19,8 +19,6 @@
 
 package pl.asie.charset.lib.handlers;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -218,7 +216,7 @@ public class ShiftScrollHandler {
 		}
 
 		try {
-			Files.write(defaultRulesFile.toPath(), gson.toJson(defaultRules).getBytes(Charsets.UTF_8));
+			Files.writeString(defaultRulesFile.toPath(), gson.toJson(defaultRules));
 		} catch (IOException e) {
 			ModCharset.logger.error(e);
 		}

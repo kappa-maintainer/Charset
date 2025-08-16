@@ -19,9 +19,9 @@
 
 package pl.asie.charset.lib.utils;
 
-import com.google.common.base.Charsets;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public final class AttributeUtils {
@@ -40,6 +40,6 @@ public final class AttributeUtils {
 	}
 
 	public static AttributeModifier newModifierSingleton(String name, double amount, Operation operation) {
-		return new AttributeModifier(UUID.nameUUIDFromBytes(name.getBytes(Charsets.UTF_8)), name, amount, operation.ordinal());
+		return new AttributeModifier(UUID.nameUUIDFromBytes(name.getBytes(StandardCharsets.UTF_8)), name, amount, operation.ordinal());
 	}
 }

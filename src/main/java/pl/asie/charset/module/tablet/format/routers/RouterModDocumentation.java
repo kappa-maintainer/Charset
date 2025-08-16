@@ -36,6 +36,7 @@ import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -59,7 +60,7 @@ public class RouterModDocumentation implements IRouterSearchable {
 
 		try (IResource resource = Minecraft.getMinecraft().getResourceManager().getResource(loc); InputStream stream = resource.getInputStream()) {
 			byte[] data = ByteStreams.toByteArray(stream);
-			return new String(data, Charsets.UTF_8);
+			return new String(data, StandardCharsets.UTF_8);
 		} catch (FileNotFoundException e) {
 			return "\\title{Not found!}\n\nThe documentation you are looking for cannot be found.";
 		} catch (Exception e) {

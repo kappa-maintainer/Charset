@@ -63,17 +63,17 @@ public class RouterSearch implements IRouter {
 			}
 
 			StringBuilder search = new StringBuilder("\\title{" + query + "}\n\n");
-			if (resultList.size() == 0) {
+			if (resultList.isEmpty()) {
 				search.append("No results.");
 			} else {
 				Set<IRouterSearchable.SearchResult> resultSet = new HashSet<>();
 				for (IRouterSearchable.SearchResult result : resultList) {
 					if (resultSet.add(result)) {
-						search.append("\\- \\url{" + result.uri.toString() + "}{" + result.text + "} (" + result.providerName + ")\n");
+						search.append("\\- \\url{").append(result.uri.toString()).append("}{").append(result.text).append("} (").append(result.providerName).append(")\n");
 					}
 				}
 
-				search.append("\n" + resultSet.size() + " result" + (resultSet.size() == 1 ? "" : "s") + ".");
+				search.append("\n").append(resultSet.size()).append(" result").append(resultSet.size() == 1 ? "" : "s").append(".");
 			}
 
 			return search.toString().trim();

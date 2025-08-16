@@ -26,9 +26,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 import pl.asie.charset.ModCharset;
 
 import java.io.BufferedReader;

@@ -19,9 +19,7 @@
 
 package pl.asie.charset.module.tablet.modcompat.igw;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.MoreFiles;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
@@ -33,6 +31,7 @@ import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 
 import javax.annotation.Nullable;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -69,7 +68,7 @@ public class RouterIGW implements IRouterSearchable {
 			try {
 				Item i = Item.getByNameOrId(loc.toString());
 				byte[] data = MoreFiles.asByteSource(p).read();
-				String s = new String(data, Charsets.UTF_8);
+				String s = new String(data, StandardCharsets.UTF_8);
 				s = s.replaceAll("[0-9+]\\. ", "\n\\- ");
 
 				StringBuffer result = new StringBuffer();
