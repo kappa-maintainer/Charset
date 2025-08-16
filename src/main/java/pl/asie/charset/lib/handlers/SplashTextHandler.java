@@ -29,6 +29,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
+import pl.asie.charset.ModCharset;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,16 +84,15 @@ public class SplashTextHandler {
 
 	@SubscribeEvent
 	public void customSplashes(GuiScreenEvent.InitGuiEvent.Pre event) {
-		if (event.getGui() instanceof GuiMainMenu) {
-			GuiMainMenu menu = (GuiMainMenu) event.getGui();
-			Field splashTextField = ObfuscationReflectionHelper.findField(GuiMainMenu.class, "field_73975_c");
+		if (event.getGui() instanceof GuiMainMenu menu) {
+            Field splashTextField = ObfuscationReflectionHelper.findField(GuiMainMenu.class, "field_73975_c");
 			List<String> splashes = new ArrayList<>();
 			addTexts(splashes, SPLASH_TEXTS);
 			addTexts(splashes, EXTRA_SPLASH_TEXTS);
 			try {
 				splashTextField.set(menu, getSplashText(splashes));
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 	}

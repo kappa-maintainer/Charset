@@ -107,7 +107,7 @@ public final class ColorPaletteParser {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		MinecraftForge.EVENT_BUS.post(new ColorPaletteUpdateEvent(this));

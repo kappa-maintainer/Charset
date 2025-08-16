@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.Loader;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.api.IRouter;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 
@@ -62,7 +63,7 @@ public class RouterModDocumentation implements IRouterSearchable {
 		} catch (FileNotFoundException e) {
 			return "\\title{Not found!}\n\nThe documentation you are looking for cannot be found.";
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return null;
 		}
 	}

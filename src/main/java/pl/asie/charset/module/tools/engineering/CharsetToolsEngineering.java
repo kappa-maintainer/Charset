@@ -42,6 +42,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.api.CharsetAPI;
 import pl.asie.charset.api.tools.IStopwatchTracker;
 import pl.asie.charset.lib.capability.Capabilities;
@@ -143,7 +144,7 @@ public class CharsetToolsEngineering {
 			ModelResourceLocation mrl = new ModelResourceLocation("charset:signal_meter", "inventory");
 			event.getModelRegistry().putObject(mrl, new ModelSignalMeter(event.getModelRegistry().getObject(mrl)));
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 	}
 

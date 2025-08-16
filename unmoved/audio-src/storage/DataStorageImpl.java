@@ -53,13 +53,13 @@ public class DataStorageImpl implements IDataStorage {
 					file.createNewFile();
 					writeFile();
 				} catch (Exception e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			} else {
 				try {
 					readFile();
 				} catch (Exception e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		}

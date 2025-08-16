@@ -36,6 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.utils.EntityUtils;
 import pl.asie.charset.module.crafting.compression.grid.GridEntry;
 import pl.asie.charset.module.storage.barrels.TileEntityDayBarrel;
@@ -156,7 +157,7 @@ public class CompressionShapeRenderer {
 											buffer, false, MathHelper.getPositionRandom(barrel.getPos())
 									);
 								} catch (Exception e) {
-									e.printStackTrace();
+									ModCharset.logger.error(e);
 								}
 							}
 						} else {
@@ -167,7 +168,7 @@ public class CompressionShapeRenderer {
 							}
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						ModCharset.logger.error(e);
 					}
 
 					if (i == 0) {

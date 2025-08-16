@@ -220,7 +220,7 @@ public class ShiftScrollHandler {
 		try {
 			Files.write(defaultRulesFile.toPath(), gson.toJson(defaultRules).getBytes(Charsets.UTF_8));
 		} catch (IOException e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		List<File> filesToCheck = Lists.newArrayList();
@@ -273,12 +273,12 @@ public class ShiftScrollHandler {
 								providers.add(new Entry(provider, alwaysCreative));
 							}
 						} catch (Exception e) {
-							e.printStackTrace();
+							ModCharset.logger.error(e);
 						}
 					}
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 	}

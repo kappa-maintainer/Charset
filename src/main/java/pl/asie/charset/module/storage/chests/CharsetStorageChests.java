@@ -223,7 +223,7 @@ public class CharsetStorageChests {
 					try {
 						ImageIO.write(image, "png", stream);
 					} catch (IOException e) {
-						e.printStackTrace();
+						ModCharset.logger.error(e);
 					}
 				}
 		);

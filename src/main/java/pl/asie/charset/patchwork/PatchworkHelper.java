@@ -63,7 +63,7 @@ public final class PatchworkHelper {
 				f.setAccessible(true);
 				return f.getBoolean(null);
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 				return false;
 			}
 		}

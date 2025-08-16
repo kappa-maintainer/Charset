@@ -22,6 +22,7 @@ package pl.asie.charset.module.tablet.format.routers;
 import com.google.common.base.Charsets;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouter;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
@@ -77,7 +78,7 @@ public class RouterSearch implements IRouter {
 
 			return search.toString().trim();
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return "";
 		}
 	}

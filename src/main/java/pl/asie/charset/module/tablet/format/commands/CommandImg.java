@@ -22,6 +22,7 @@ package pl.asie.charset.module.tablet.format.commands;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.ITokenizer;
 import pl.asie.charset.module.tablet.format.api.ICommand;
 import pl.asie.charset.module.tablet.format.api.ITypesetter;
@@ -41,7 +42,7 @@ public class CommandImg implements ICommand {
 				throw new TruthError("Not found: " + imgName);
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			throw new TruthError(e.getMessage());
 		}
 

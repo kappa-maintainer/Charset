@@ -126,7 +126,7 @@ public class CharsetImmersionStacks {
 							return m.getDeclaringClass() != Block.class;
 						} catch (Exception e) {
 							ModCharset.logger.warn("Exception during recursive method check on " + c + "!");
-							e.printStackTrace();
+							ModCharset.logger.error(e);
 							return true; // The safer of the two assumptions.
 						}
 					}

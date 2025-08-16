@@ -114,7 +114,7 @@ public class RouterIGW implements IRouterSearchable {
 				}
 				return out;
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 				return null;
 			}
 		}

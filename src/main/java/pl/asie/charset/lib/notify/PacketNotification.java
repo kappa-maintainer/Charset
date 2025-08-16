@@ -31,6 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.network.Packet;
 import pl.asie.charset.lib.notify.component.NotificationComponent;
 import pl.asie.charset.lib.notify.component.NotificationComponentString;
@@ -117,7 +118,7 @@ public class PacketNotification extends Packet {
 		try {
 			msg = NotificationComponentUtil.deserialize(input);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			msg = NotificationComponentString.raw("#ERR");
 		}
 	}

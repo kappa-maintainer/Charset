@@ -67,7 +67,7 @@ public final class ModPathIterator {
 			} catch (NoSuchFileException | FileSystemNotFoundException e) {
 				// Don't worry~
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 		return paths;

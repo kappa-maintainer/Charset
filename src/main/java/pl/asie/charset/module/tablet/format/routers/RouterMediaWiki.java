@@ -29,6 +29,7 @@ import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpException;
 import org.apache.hc.core5.http.HttpResponse;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 import pl.asie.charset.module.tablet.format.parsers.WikiParser;
@@ -62,7 +63,7 @@ public class RouterMediaWiki implements IRouterSearchable {
 				path = new URI(path.toString().replaceAll("%20%28Vanilla%29", ""));
 				hostsChecks = new String[]{"minecraft.gamepedia.com"};
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 
@@ -91,7 +92,7 @@ public class RouterMediaWiki implements IRouterSearchable {
 					err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 				return null;
 			}
 		}
@@ -134,7 +135,7 @@ public class RouterMediaWiki implements IRouterSearchable {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 	}

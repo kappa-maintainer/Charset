@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.utils.RenderUtils;
 
 import java.awt.*;
@@ -164,7 +165,7 @@ public class PixelOperationSprite extends TextureAtlasSpriteCustom {
         try (IResource resource = manager.getResource(RenderUtils.toTextureFilePath(location))) {
             this.addFrameTextureData(width, height, pixels, resource);
         } catch (IOException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             this.addFrameTextureData(width, height, pixels);
         }
 

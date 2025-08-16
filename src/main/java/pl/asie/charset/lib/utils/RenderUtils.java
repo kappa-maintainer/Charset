@@ -200,7 +200,7 @@ public final class RenderUtils {
 		try (IResource resource = Minecraft.getMinecraft().getResourceManager().getResource(toTextureFilePath(location)); InputStream stream = resource.getInputStream()) {
 			return TextureUtil.readBufferedImage(stream);
 		} catch (IOException e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return null;
 		}
 	}
@@ -268,7 +268,7 @@ public final class RenderUtils {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		return sprites;
@@ -446,7 +446,7 @@ public final class RenderUtils {
 			return ModelLoaderRegistry.getModel(location);
 		} catch (Exception e) {
 			ModCharset.logger.error("Model " + location.toString() + " is missing! THIS WILL CAUSE A CRASH!");
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return null;
 		}
 	}

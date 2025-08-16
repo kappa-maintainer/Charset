@@ -56,7 +56,7 @@ public class GuiContainerCharset<T extends ContainerBase> extends GuiContainer {
 			this.drawDefaultBackground();
 		} catch (Exception e) {
 			ModCharset.logger.warn("Caught an undesired exception - see bug #354! This GUI: " + Objects.toString(this, "null") + ", current GUI: " + Objects.toString(Minecraft.getMinecraft().currentScreen, "null"));
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTicks);

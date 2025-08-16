@@ -39,7 +39,7 @@ public class DataStorageStorage implements Capability.IStorage<IDataStorage> {
 				instance.onUnload();
 			} catch (IOException e) {
 				ModCharset.logger.error("Could not save a DataStorage! (ID: " + instance.getUniqueId() + ")");
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 
 			return compound;

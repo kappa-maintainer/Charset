@@ -153,7 +153,7 @@ public class PacketRegistry {
 		try {
 			return idPacketMap[i].newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return null;
 		}
 	}

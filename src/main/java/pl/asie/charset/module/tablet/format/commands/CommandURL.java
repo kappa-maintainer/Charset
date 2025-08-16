@@ -19,6 +19,7 @@
 
 package pl.asie.charset.module.tablet.format.commands;
 
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.ITokenizer;
 import pl.asie.charset.module.tablet.format.api.ICommand;
 import pl.asie.charset.module.tablet.format.api.ITypesetter;
@@ -35,7 +36,7 @@ public class CommandURL implements ICommand {
 		try {
 			typesetter.write(new WordURL(content, new URI(uriLink)));
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			throw new TruthError(e.getMessage());
 		}
 	}

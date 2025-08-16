@@ -29,6 +29,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.api.Word;
 
 import javax.imageio.ImageIO;
@@ -75,7 +76,7 @@ public class WordImage extends Word {
             this.height = bufferedimage.getHeight();
             size_cache.put(resource, Pair.of(width, height));
         } catch (IOException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
         }
     }
 

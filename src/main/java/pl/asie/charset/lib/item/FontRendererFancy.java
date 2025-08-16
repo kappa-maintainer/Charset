@@ -24,6 +24,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import pl.asie.charset.ModCharset;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -51,7 +52,7 @@ public class FontRendererFancy extends FontRenderer {
 	        try {
 	            instance = new FontRendererFancy(Minecraft.getMinecraft().fontRenderer);
             } catch (IllegalAccessException e) {
-	            e.printStackTrace();
+	            ModCharset.logger.error(e);
 	            instance = null;
             }
         }

@@ -32,6 +32,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.model.IModelState;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.material.ColorLookupHandler;
 import pl.asie.charset.lib.render.model.ModelColorHandler;
 import pl.asie.charset.lib.render.model.ModelFactory;
@@ -72,7 +73,7 @@ public class BarrelModel extends ModelFactory<BarrelCacheInfo> {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
         }
     }
 

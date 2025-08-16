@@ -530,7 +530,7 @@ public class ModuleLoader {
 			try {
 				addClassNames(table, Class.forName(data.getClassName()), id);
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 

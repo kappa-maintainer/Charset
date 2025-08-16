@@ -24,6 +24,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import net.minecraft.util.text.translation.I18n;
 import org.apache.commons.lang3.tuple.Pair;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.api.IRouter;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
 import pl.asie.charset.module.tablet.format.api.TabletAPI;
@@ -46,7 +47,7 @@ public class RouterIndex implements IRouter {
 
 			return result.toString().trim();
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return "";
 		}
 	}

@@ -28,12 +28,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.loader.CharsetModule;
 import pl.asie.charset.lib.loader.ModuleProfile;
 import pl.asie.charset.lib.utils.ModPathIterator;
 import pl.asie.charset.module.tablet.format.api.TabletAPI;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -71,7 +73,7 @@ public class CharsetTabletCompatMcJty {
 					}
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 
@@ -82,14 +84,14 @@ public class CharsetTabletCompatMcJty {
 			for (String lang : books.row(name).keySet()) {
 				try {
 					byte[] data = MoreFiles.asByteSource(books.get(name, lang)).read();
-					String text = new String(data, Charsets.UTF_8);
+					String text = new String(data, StandardCharsets.UTF_8);
 					if (lang.equals("en_us")) {
 						String firstLine = text.split("\n", 2)[0];
 						friendlyName = firstLine.substring(firstLine.lastIndexOf('}') + 1);
 					}
 					texts.put(lang, text);
 				} catch (IOException e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 

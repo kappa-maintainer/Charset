@@ -115,7 +115,7 @@ public class CarryTransformerEntityMinecart implements ICarryTransformer<Entity>
 				targetEntity.readFromNBT(compound);
 				world.spawnEntity(targetEntity);
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 				return null;
 			}
 		} else {

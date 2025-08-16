@@ -19,6 +19,7 @@
 
 package pl.asie.charset.module.tablet.format.commands;
 
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.ITokenizer;
 import pl.asie.charset.module.tablet.format.api.ICommand;
 import pl.asie.charset.module.tablet.format.api.ITypesetter;
@@ -39,7 +40,7 @@ public class CommandURLMissing implements ICommand {
 			typesetter.write(new WordText(content));
 			typesetter.popStyle(3);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			throw new TruthError(e.getMessage());
 		}
 	}

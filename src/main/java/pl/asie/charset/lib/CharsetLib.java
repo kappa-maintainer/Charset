@@ -149,7 +149,7 @@ public class CharsetLib {
 			// Hmm.)
 			FMLClientHandler.instance().refreshResources(r -> false);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		MinecraftForge.EVENT_BUS.register(ColorPaletteParser.INSTANCE);

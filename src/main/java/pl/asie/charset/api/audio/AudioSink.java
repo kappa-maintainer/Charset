@@ -27,6 +27,7 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.api.CharsetAPI;
 
 public abstract class AudioSink extends IForgeRegistryEntry.Impl<AudioSink> implements IAudioReceiver {
@@ -54,7 +55,7 @@ public abstract class AudioSink extends IForgeRegistryEntry.Impl<AudioSink> impl
             sink.readData(buffer);
             return sink;
         } catch (Exception e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }

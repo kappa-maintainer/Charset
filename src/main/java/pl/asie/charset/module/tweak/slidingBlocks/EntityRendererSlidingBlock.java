@@ -66,7 +66,7 @@ public class EntityRendererSlidingBlock extends Render<EntitySlidingBlock> {
 							model, renderStateExt, pos, buffer, false, 0L
 					);
 				} catch (Exception e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 
 				tessellator.draw();
@@ -86,7 +86,7 @@ public class EntityRendererSlidingBlock extends Render<EntitySlidingBlock> {
 					TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, partialTicks);
 				} catch (Exception e) {
 					if (!caughtExceptionTileRenderers.contains(tile.getClass())) {
-						e.printStackTrace();
+						ModCharset.logger.error(e);
 						ModCharset.logger.warn("Future exceptions from this tile entity will be hidden.");
 						caughtExceptionTileRenderers.add(tile.getClass());
 					}
@@ -103,7 +103,7 @@ public class EntityRendererSlidingBlock extends Render<EntitySlidingBlock> {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 	}
 

@@ -20,6 +20,7 @@
 package pl.asie.charset.lib.loader;
 
 import com.google.common.collect.ImmutableSet;
+import pl.asie.charset.ModCharset;
 
 import java.util.Set;
 
@@ -38,10 +39,10 @@ public abstract class AnnotatedPluginHandler<T> {
 
             for (String s : ModuleLoader.classNames.get(annotationClass)) {
                 try {
-                    T plugin = (T) Class.forName(s).newInstance();
+                    T plugin = (T) Class.forName(s).getConstructor().newInstance();
                     builder.add(plugin);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ModCharset.logger.error(e);
                 }
             }
 

@@ -28,6 +28,7 @@ import paulscode.sound.SoundBuffer;
 import paulscode.sound.codecs.CodecIBXM;
 import paulscode.sound.codecs.CodecJOrbis;
 import paulscode.sound.codecs.CodecWav;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.audio.codec.DFPWM;
 
 import javax.sound.sampled.AudioFormat;
@@ -187,12 +188,12 @@ public class AudioRecordThread implements Runnable {
 			statusBar = "Uploaded!";
 			Thread.sleep(1250);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			statusBar = "Strange error!";
 			try {
 				Thread.sleep(1250);
 			} catch (InterruptedException ee) {
-
+                ModCharset.logger.error(ee);
 			}
 		}
 	}

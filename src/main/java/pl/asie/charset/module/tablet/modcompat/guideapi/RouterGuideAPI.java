@@ -26,6 +26,7 @@ import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.page.PageText;
 import amerifrance.guideapi.page.PageTextImage;
 import net.minecraft.util.ResourceLocation;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouter;
 import pl.asie.charset.module.tablet.format.api.IRouterSearchable;
@@ -131,7 +132,7 @@ public class RouterGuideAPI implements IRouterSearchable {
 								new URI("guideapi://" + location.getNamespace() + "/" + location.getPath() + "/" + TabletUtil.encode(category.name.toLowerCase(Locale.ROOT)) + "/" + TabletUtil.encode(entry.getValue().name.toLowerCase(Locale.ROOT)))
 						));
 					} catch (URISyntaxException e) {
-						e.printStackTrace();
+						ModCharset.logger.error(e);
 					}
 				}
 			}

@@ -19,6 +19,8 @@
 
 package pl.asie.charset.module.misc.drama;
 
+import pl.asie.charset.ModCharset;
+
 import java.util.*;
 
 public class DramaGenerator {
@@ -201,7 +203,7 @@ public class DramaGenerator {
 					s = s.replaceFirst(cc, cm);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 

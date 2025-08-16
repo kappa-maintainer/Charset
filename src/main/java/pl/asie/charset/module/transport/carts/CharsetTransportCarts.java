@@ -198,7 +198,7 @@ public class CharsetTransportCarts {
                 );
                 event.getWorld().spawnEntity(painting);
             } catch (Exception e) {
-                e.printStackTrace();
+                ModCharset.logger.error(e);
             }
         }
     }

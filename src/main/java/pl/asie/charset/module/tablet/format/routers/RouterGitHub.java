@@ -25,6 +25,7 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpResponse;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.TabletUtil;
 import pl.asie.charset.module.tablet.format.api.IRouter;
 import pl.asie.charset.module.tablet.format.parsers.GitHubMarkdownParser;
@@ -66,7 +67,7 @@ public class RouterGitHub implements IRouter {
 				err = err + "ERROR: " + response.getCode() + " " + response.getReasonPhrase() + "\n\n";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			return null;
 		}
 

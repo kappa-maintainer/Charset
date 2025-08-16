@@ -28,6 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.utils.MethodHandleHelper;
 import pl.asie.charset.module.optics.projector.*;
 
@@ -64,7 +65,7 @@ public class ProjectorHandlerMap implements IProjectorHandler<ItemStack> {
 					Minecraft.getMinecraft().getTextureManager().bindTexture((ResourceLocation) MAP_DATA_LOCATION_GETTER.invoke(o));
 					ProjectorHelper.INSTANCE.renderTexture(surface, 0, 256, 0, 256);
 				} catch (Throwable e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		} else {

@@ -464,7 +464,7 @@ public final class ItemMaterialHeuristics {
 
                 writer.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                ModCharset.logger.error(e);
             }
         }
     }

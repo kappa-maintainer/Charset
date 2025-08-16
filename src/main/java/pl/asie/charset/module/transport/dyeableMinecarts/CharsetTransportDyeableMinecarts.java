@@ -46,6 +46,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.loader.CharsetModule;
 import pl.asie.charset.lib.loader.ModuleProfile;
 import pl.asie.charset.lib.network.PacketRegistry;
@@ -114,7 +115,7 @@ public class CharsetTransportDyeableMinecarts {
 
 				ImageIO.write(image, "png", stream);
 			} catch (IOException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		});
 	}
@@ -140,7 +141,7 @@ public class CharsetTransportDyeableMinecarts {
 				}
 			}
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		} catch (ReflectionHelper.UnableToFindFieldException e) {
 			// pass
 		}

@@ -26,6 +26,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.loader.CharsetModule;
 import pl.asie.charset.lib.loader.ModuleProfile;
 import pl.asie.charset.lib.render.sprite.PixelOperationSprite;
@@ -154,7 +155,7 @@ public class CharsetTweakUnifyColors {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		recolorTextures(event.getMap(), "minecraft:blocks/wool_colored_");

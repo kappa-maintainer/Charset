@@ -27,6 +27,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry;
+import pl.asie.charset.ModCharset;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -86,7 +87,7 @@ public class RecipePatchwork extends IForgeRegistryEntry.Impl<IRecipe> implement
 				try {
 					return CraftingManager.findMatchingResult(invPatched, null);
 				} catch (Exception e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		}

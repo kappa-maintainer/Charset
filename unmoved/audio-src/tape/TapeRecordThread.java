@@ -134,7 +134,7 @@ public class TapeRecordThread implements Runnable {
 			statusBar = "Uploaded!";
 			Thread.sleep(1250);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 			statusBar = "Strange error!";
 			try {
 				Thread.sleep(1250);

@@ -23,6 +23,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.apache.commons.lang3.StringUtils;
+import pl.asie.charset.ModCharset;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -101,7 +102,7 @@ public final class MethodHandleHelper {
                     ReflectionHelper.findConstructor(Class.forName(s), types)
             );
         } catch (IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }
@@ -112,7 +113,7 @@ public final class MethodHandleHelper {
                     ReflectionHelper.findMethod(c, nameDeobf, nameObf, types)
             );
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }
@@ -121,7 +122,7 @@ public final class MethodHandleHelper {
         try {
             return MethodHandles.lookup().unreflectGetter(ReflectionHelper.findField(c, names));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }
@@ -130,7 +131,7 @@ public final class MethodHandleHelper {
         try {
             return MethodHandles.lookup().unreflectSetter(ReflectionHelper.findField(c, names));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }
@@ -139,7 +140,7 @@ public final class MethodHandleHelper {
         try {
             return findFieldGetter(Class.forName(s), names);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }
@@ -148,7 +149,7 @@ public final class MethodHandleHelper {
         try {
             return findFieldSetter(Class.forName(s), names);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return null;
         }
     }

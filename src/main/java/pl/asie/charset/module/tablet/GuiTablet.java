@@ -32,6 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.module.tablet.format.ClientTypesetter;
 import pl.asie.charset.module.tablet.format.api.*;
 
@@ -110,7 +111,7 @@ public class GuiTablet extends GuiScreen implements IPrintingContextMinecraft {
 			try {
 				openURI(new URI("about://index"));
 			} catch (URISyntaxException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 	}
@@ -133,7 +134,7 @@ public class GuiTablet extends GuiScreen implements IPrintingContextMinecraft {
 		try {
 			typesetter.write(text);
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		heightStart = 0;
@@ -168,7 +169,7 @@ public class GuiTablet extends GuiScreen implements IPrintingContextMinecraft {
 				load(currentFuture.get());
 				currentFuture = null;
 			} catch (Exception e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 				currentFuture = null;
 				load("\\b{Error!} " + e.getMessage());
 			}
@@ -236,7 +237,7 @@ public class GuiTablet extends GuiScreen implements IPrintingContextMinecraft {
 					try {
 						openURI(new URI("about://index"));
 					} catch (URISyntaxException e) {
-						e.printStackTrace();
+						ModCharset.logger.error(e);
 					}
 				}
 				break;
@@ -299,7 +300,7 @@ public class GuiTablet extends GuiScreen implements IPrintingContextMinecraft {
 				try {
 					openURI(new URI("about://index"));
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		}

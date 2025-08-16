@@ -85,7 +85,7 @@ public class ConfigGui extends GuiConfig {
 				try {
 					clist = ((ICharsetModuleConfigGui) Class.forName(clsName).newInstance()).createConfigElements();
 				} catch (Exception e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 

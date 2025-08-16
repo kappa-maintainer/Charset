@@ -23,6 +23,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import paulscode.sound.ICodec;
 import paulscode.sound.SoundBuffer;
 import paulscode.sound.codecs.CodecIBXM;
+import pl.asie.charset.ModCharset;
 
 import javax.sound.sampled.AudioFormat;
 import java.io.ByteArrayOutputStream;
@@ -64,7 +65,7 @@ public class AudioDataDumperPaul implements IAudioDataDumper {
         try {
             codec.initialize(f.toURI().toURL());
         } catch (Exception e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
         }
     }
 

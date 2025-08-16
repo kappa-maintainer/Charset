@@ -264,7 +264,7 @@ public class CarryHandler implements ICacheable, ICarryHandler {
                 try {
                     newState.neighborChanged(world, pos, oldBlock.getBlock(), pos);
                 } catch (Throwable throwable) {
-                    throwable.printStackTrace();
+                    ModCharset.logger.error(throwable);
                 }
 
                 CharsetTweakBlockCarrying.syncCarryWithAllClients(player);

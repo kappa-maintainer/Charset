@@ -37,6 +37,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.item.ISubItemProvider;
 import pl.asie.simplelogic.gates.logic.GateLogic;
 import pl.asie.charset.lib.item.ItemBlockBase;
@@ -124,7 +125,7 @@ public class ItemGate extends ItemBlockBase {
 				return Optional.of(c.newInstance());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 		return Optional.of(prevLogic);
 	}
@@ -136,7 +137,7 @@ public class ItemGate extends ItemBlockBase {
 				return Optional.of(c.newInstance());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 		return Optional.empty();
 	}
@@ -148,7 +149,7 @@ public class ItemGate extends ItemBlockBase {
 				return Optional.of(new PartGate(c.newInstance()));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 		return Optional.empty();
 	}

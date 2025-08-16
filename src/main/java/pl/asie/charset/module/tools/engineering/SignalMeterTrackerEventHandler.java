@@ -23,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.stagingapi.ISignalMeterData;
 
 public class SignalMeterTrackerEventHandler {
@@ -46,13 +47,13 @@ public class SignalMeterTrackerEventHandler {
 							try {
 								CharsetToolsEngineering.packet.sendToAllAround(new PacketSignalMeterData(data), event.player, CharsetToolsEngineering.maxSendDistance);
 							} catch (Exception e) {
-								e.printStackTrace();
+								ModCharset.logger.error(e);
 							}
 						} else {
 							try {
 								CharsetToolsEngineering.packet.sendTo(new PacketSignalMeterData(data), event.player);
 							} catch (Exception e) {
-								e.printStackTrace();
+								ModCharset.logger.error(e);
 							}
 						}
 					}

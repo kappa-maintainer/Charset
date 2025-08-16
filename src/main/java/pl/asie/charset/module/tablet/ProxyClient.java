@@ -42,6 +42,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.lwjgl.input.Keyboard;
+import pl.asie.charset.ModCharset;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -119,7 +120,7 @@ public class ProxyClient extends ProxyCommon {
 
 				FMLCommonHandler.instance().showGuiScreen(tablet);
 			} catch (URISyntaxException e) {
-				e.printStackTrace();
+				ModCharset.logger.error(e);
 			}
 		}
 	}
@@ -180,7 +181,7 @@ public class ProxyClient extends ProxyCommon {
 						}
 					}
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 

@@ -85,7 +85,7 @@ public class CharsetAudioNoteblock {
         try {
             return (GET_INSTRUMENT != null ? (SoundEvent) GET_INSTRUMENT.invokeExact((BlockNote) Blocks.NOTEBLOCK, (int) id) : SoundEvents.BLOCK_NOTE_HARP);
         } catch (Throwable e) {
-            e.printStackTrace();
+            ModCharset.logger.error(e);
             return SoundEvents.BLOCK_NOTE_HARP;
         }
     }

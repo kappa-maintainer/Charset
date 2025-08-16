@@ -39,6 +39,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
 
 import net.minecraftforge.fml.common.ProgressManager;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.utils.RenderUtils;
 
 // TODO: Rewrite - remove distinction between BaseDefinition and Definition, allow multiple InputStream for resource
@@ -170,7 +171,7 @@ public class GateRenderDefinitions {
 		     InputStreamReader reader = new InputStreamReader(stream)) {
 			base = GSON.fromJson(reader, BaseDefinition.class);
 		} catch (IOException e) {
-			e.printStackTrace();
+			ModCharset.logger.error(e);
 		}
 
 		definitionMap.clear();
@@ -192,7 +193,7 @@ public class GateRenderDefinitions {
 					def.postInit();
 					definitionMap.put(s, def);
 				} catch (IOException e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		}

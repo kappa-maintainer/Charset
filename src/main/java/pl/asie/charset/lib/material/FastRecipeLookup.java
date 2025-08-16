@@ -37,6 +37,7 @@ import net.minecraftforge.common.crafting.IngredientNBT;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.CharsetLib;
 import pl.asie.charset.lib.recipe.RecipeCharset;
 import pl.asie.charset.lib.utils.RecipeUtils;
@@ -281,7 +282,7 @@ public class FastRecipeLookup {
 
 					writer.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					ModCharset.logger.error(e);
 				}
 			}
 		}
