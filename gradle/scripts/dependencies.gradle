@@ -64,7 +64,8 @@ dependencies {
     }
 
     // shadows
-    //contain 'io.github.overplex:libresample4j:0.1.4'
+    // contain 'io.github.overplex:libresample4j:0.1.4'
+    // Nvm, the new versio somehow has less features
     contain name: "libresample4j", version: "bc0a030"
 //	shadow name: "ibxm", version: "a73"
 
@@ -87,6 +88,7 @@ dependencies {
     modImplementation 'li.cil.tis3d:TIS-3D:MC1.12.2-1.5.1.+:api'
     modImplementation 'curse.maven:railcraft-51195:3853491'
 
+    // Only need this when OC is present, which comes with this library
     compileOnly 'com.typesafe:config:1.4.3'
 
     // Example - Dependency descriptor:

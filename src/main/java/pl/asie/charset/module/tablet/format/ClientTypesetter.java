@@ -122,16 +122,16 @@ public class ClientTypesetter extends AbstractTypesetter implements IPrintingCon
     @Override
     public void popStyle(int cnt) throws TruthError {
         for (int i = 0; i < cnt; i++) {
-            if (styles.size() == 0) {
+            if (styles.isEmpty()) {
                 throw new TruthError("Tried to pop style when there wasn't one on the stack!");
             }
-            styles.remove(styles.size() - 1);
+            styles.removeLast();
         }
     }
 
     @Override
     public void write(Word w) {
-        if (!lines.get(lines.size() - 1).add(w, false)) {
+        if (!lines.getLast().add(w, false)) {
             Line line = new Line();
             lines.add(line);
             line.add(w, true);
