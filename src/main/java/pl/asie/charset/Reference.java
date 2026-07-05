@@ -6,7 +6,7 @@ package pl.asie.charset;
 public class Reference {
 
     public static final String MOD_ID = "charset";
-    public static final String MOD_NAME = "Charset";
-    public static final String VERSION = "0.5.7";
+    public static final String MOD_NAME = "Charset CRE";
+    public static final String VERSION = "0.5.8";
 
 }

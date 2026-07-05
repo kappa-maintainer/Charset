@@ -42,18 +42,23 @@ public final class CauldronContents {
 		this.heldItem = ItemStack.EMPTY;
 	}
 
+	public CauldronContents(FluidStack fluidStack) {
+		this(Source.UNKNOWN, fluidStack, ItemStack.EMPTY);
+	}
+
+	public CauldronContents(Source source, FluidStack fluidStack) {
+		this(source, fluidStack, ItemStack.EMPTY);
+	}
+
 	public CauldronContents(FluidStack fluidStack, ItemStack heldItem) {
-		this.response = null;
-		this.source = Source.UNKNOWN;
-		this.fluidStack = fluidStack;
-		this.heldItem = heldItem;
+		this(Source.UNKNOWN, fluidStack, heldItem);
 	}
 
 	public CauldronContents(Source source, FluidStack fluidStack, ItemStack heldItem) {
 		this.response = null;
 		this.source = source;
 		this.fluidStack = fluidStack;
-		this.heldItem = heldItem;
+		this.heldItem = (heldItem != null) ? heldItem : ItemStack.EMPTY;
 	}
 
 	public Source getSource() {

@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'org.jetbrains.changelog' version '2.2.1'
-    id 'xyz.wagyourtail.unimined' version '1.4.1'
+    id 'xyz.wagyourtail.unimined' version '1.4.25-kappa'
 }
 
 apply from: 'gradle/scripts/helpers.gradle'
@@ -37,7 +37,7 @@ base {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
     if (propertyBool('generate_sources_jar')) {
         withSourcesJar()
@@ -91,7 +91,7 @@ unimined.minecraft {
         if (propertyBool('use_access_transformer')) {
             accessTransformer "${rootProject.projectDir}/src/main/resources/" +  propertyString('access_transformer_locations')
         }
-        loader "0.3.13-alpha"
+        loader "0.5.15-alpha"
         runs.auth.username = minecraft_username
         runs.all {
             def extraArgs = propertyString('extra_jvm_args')
@@ -200,7 +200,7 @@ jar {
 
 
 compileTestJava {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.register('apiJar', Jar) {
@@ -232,7 +232,7 @@ remapSimplelogicJar {
 test {
     useJUnitPlatform()
     javaLauncher.set(javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     })
     if (propertyBool('show_testing_output')) {
         testLogging {
