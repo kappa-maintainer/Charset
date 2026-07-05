@@ -67,16 +67,19 @@ public class FluidPotion extends FluidBase implements IFluidExtraInformation {
 	}
 
 	public static void copyFromPotionItem(FluidStack stack, ItemStack itemStack) {
-		setPotion(stack, PotionUtils.getPotionTypeFromNBT(itemStack.getTagCompound()));
-		if (stack.tag != null && itemStack.hasTagCompound()) {
-			if (itemStack.getTagCompound().hasKey("CustomPotionColor", Constants.NBT.TAG_ANY_NUMERIC)) {
-				stack.tag.setTag("CustomPotionColor", itemStack.getTagCompound().getTag("CustomPotionColor"));
+		if (itemStack.hasTagCompound()) {
+			NBTTagCompound itemTag = itemStack.getTagCompound();
+			if (itemTag.hasKey("CustomPotionColor", Constants.NBT.TAG_ANY_NUMERIC)) {
+				if (stack.tag == null) stack.tag = new NBTTagCompound();
+				stack.tag.setTag("CustomPotionColor", itemTag.getTag("CustomPotionColor"));
 			}
-
-			if (itemStack.getTagCompound().hasKey("CustomPotionEffects", Constants.NBT.TAG_LIST)) {
-				stack.tag.setTag("CustomPotionEffects", itemStack.getTagCompound().getTag("CustomPotionEffects"));
+			if (itemTag.hasKey("CustomPotionEffects", Constants.NBT.TAG_LIST)) {
+				if (stack.tag == null) stack.tag = new NBTTagCompound();
+				stack.tag.setTag("CustomPotionEffects", itemTag.getTag("CustomPotionEffects"));
 			}
 		}
+
+		setPotion(stack, PotionUtils.getPotionTypeFromNBT(itemStack.getTagCompound()));
 	}
 
 	public static Item getPotionItem(Fluid fluid) {
