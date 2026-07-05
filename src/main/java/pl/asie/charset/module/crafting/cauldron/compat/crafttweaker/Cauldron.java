@@ -27,6 +27,7 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import pl.asie.charset.module.crafting.cauldron.api.CauldronContents;
 import pl.asie.charset.module.crafting.cauldron.api.ICauldronRecipe;
@@ -147,6 +148,41 @@ public class Cauldron {
 				}
 
 				return Optional.of(new CauldronContents(newStack, CraftTweakerMC.getItemStack(outputItem)));
+			}));
+		}
+	}
+
+	@ZenMethod
+	public static void fillWithItem(IIngredient inputItem, ILiquidStack outputLiquid) {
+		fillWithItem(inputItem, outputLiquid, null);
+	}
+
+	@ZenMethod
+	public static void fillWithItem(IIngredient inputItem, ILiquidStack outputLiquid, IItemStack outputItem) {
+		if (inputItem != null && outputLiquid != null) {
+			CraftTweakerAPI.apply(new AddRecipeAction((cauldron, contents) -> {
+				if (!contents.hasHeldItem() || !inputItem.matches(CraftTweakerMC.getIItemStack(contents.getHeldItem()))) {
+					return Optional.empty();
+				}
+
+				FluidStack addedFluid = CraftTweakerMC.getLiquidStack(outputLiquid);
+				FluidStack resultFluid;
+
+				if (contents.hasFluidStack()) {
+					if (!contents.getFluidStack().isFluidEqual(addedFluid)) {
+						return Optional.empty();
+					}
+					if (contents.getFluidStack().amount >= 1000) {
+						return Optional.empty();
+					}
+					resultFluid = contents.getFluidStack().copy();
+					resultFluid.amount += addedFluid.amount;
+				} else {
+					resultFluid = addedFluid.copy();
+				}
+
+				ItemStack resultItem = outputItem != null ? CraftTweakerMC.getItemStack(outputItem) : ItemStack.EMPTY;
+				return Optional.of(new CauldronContents(resultFluid, resultItem));
 			}));
 		}
 	}
