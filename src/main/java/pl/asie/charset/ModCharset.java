@@ -61,7 +61,7 @@ import java.util.*;
 
 @Mod(modid = ModCharset.MODID, name = ModCharset.NAME, version = ModCharset.VERSION, updateJSON = ModCharset.UPDATE_URL, dependencies = ModCharset.DEP_LIB, guiFactory = "pl.asie.charset.lib.config.ConfigGuiFactory")
 public class ModCharset {
-	public static final String UPDATE_URL = "http://charset.asie.pl/update.json";
+	public static final String UPDATE_URL = "https://charset.asie.pl/update.json";
 	public static final String MODID = "charset";
 	public static final String NAME = "Charset";
 	public static final String VERSION = Reference.VERSION;
@@ -133,7 +133,7 @@ public class ModCharset {
 		configGeneral = new Configuration(getConfigFile("charset.cfg"));
 		RegistryUtils.loadConfigIds(configIds);
 
-		logger = LogManager.getLogger();
+		logger = LogManager.getLogger(MODID);
 
 		ModuleLoader.INSTANCE.preInit(event.getAsmData());
 

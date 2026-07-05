@@ -20,7 +20,11 @@
 package pl.asie.charset.lib.loader;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.*;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
@@ -28,7 +32,6 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.asm.ModAnnotation;
 import net.minecraftforge.fml.common.event.FMLEvent;
@@ -36,9 +39,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.tuple.Pair;
 import pl.asie.charset.ModCharset;
 import pl.asie.charset.lib.config.CharsetLoadConfigEvent;
-import pl.asie.charset.lib.modcompat.chiselsandbits.CharsetChiselsAndBitsPlugin;
-import pl.asie.charset.lib.modcompat.jei.CharsetJEIPlugin;
-import pl.asie.charset.lib.modcompat.mcmultipart.CharsetMCMPAddon;
 import pl.asie.charset.lib.network.PacketRegistry;
 import pl.asie.charset.lib.utils.ThreeState;
 
@@ -46,7 +46,18 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class ModuleLoader {
@@ -79,12 +90,12 @@ public class ModuleLoader {
 	}
 
 	public static final ModuleLoader INSTANCE = new ModuleLoader();
-	public static final Multimap<Class, String> classNames = HashMultimap.create();
+	public static final Multimap<Class<?>, String> classNames = HashMultimap.create();
 	public static final BiMap<String, Configuration> moduleConfigs = HashBiMap.create();
 	public static final Map<String, String> moduleGuiClasses = new HashMap<>();
 
 	private static final Multimap<String, String> dependencies = HashMultimap.create();
-	private static final Map<Class, List<Pair<String, MethodHandle>>> loaderHandles = new IdentityHashMap<>();
+	private static final Map<Class<?>, List<Pair<String, MethodHandle>>> loaderHandles = new IdentityHashMap<>();
 
 	private static final BiMap<String, Object> loadedModules = HashBiMap.create();
 	private static final Map<String, Object> loadedModulesByClass = new HashMap<>();
@@ -102,7 +113,7 @@ public class ModuleLoader {
 		return loadedModules.keySet();
 	}
 
-	private Class getClass(ASMDataTable.ASMData data) {
+	private Class<?> getClass(ASMDataTable.ASMData data) {
 		try {
 			return getClass().getClassLoader().loadClass(data.getClassName());
 		} catch (ClassNotFoundException e) {
@@ -139,7 +150,7 @@ public class ModuleLoader {
 		}
 	}
 
-	private void addClassNames(ASMDataTable table, Class annotationClass, String confType) {
+	private void addClassNames(ASMDataTable table, Class<?> annotationClass, String confType) {
 		for (ASMDataTable.ASMData data : table.getAll(annotationClass.getName())) {
 			String id = (String) data.getAnnotationInfo().get("value");
 			Property prop = ModCharset.configModules.get(
@@ -165,16 +176,12 @@ public class ModuleLoader {
 
 	private ModuleProfile getProfileFromString(String s) {
 		s = s.toUpperCase(Locale.ROOT);
-		if ("STABLE".equals(s)) {
-			return ModuleProfile.STABLE;
-		} else if ("TESTING".equals(s)) {
-			return ModuleProfile.TESTING;
-		} else if ("EXPERIMENTAL".equals(s)
-				|| "UNSTABLE".equals(s)) {
-			return ModuleProfile.EXPERIMENTAL;
-		} else {
-			throw new RuntimeException("Invalid Charset modules.cfg general.profile setting '" + s + "'!");
-		}
+        return switch (s) {
+            case "STABLE" -> ModuleProfile.STABLE;
+            case "TESTING" -> ModuleProfile.TESTING;
+            case "EXPERIMENTAL", "UNSTABLE" -> ModuleProfile.EXPERIMENTAL;
+            default -> throw new RuntimeException("Invalid Charset modules.cfg general.profile setting '" + s + "'!");
+        };
 	}
 
 	@SuppressWarnings("unchecked")
@@ -212,7 +219,7 @@ public class ModuleLoader {
 			profile = getProfileFromString(baseProfileProp.getString());
 		}
 		ModCharset.profile = profile;
-		ModCharset.logger.info("Charset profile is " + ModCharset.profile);
+        ModCharset.logger.info("Charset profile is {}", ModCharset.profile);
 
 		ConfigCategory category = ModCharset.configModules.getCategory("overrides");
 		category.setComment("Overrides can have one of three values: DEFAULT, ENABLE, DISABLE\nDEFAULT will enable the module based on your profile settings and dependency availability.");
@@ -244,13 +251,13 @@ public class ModuleLoader {
 			if (desc == null) desc = "";
 			ModuleProfile modProfile = ModuleProfile.valueOf(((ModAnnotation.EnumHolder) info.get("profile")).getValue());
 			Boolean isDefault = (Boolean) info.getOrDefault("isDefault", true);
-			Boolean compat = modProfile == ModuleProfile.COMPAT;
+			boolean compat = modProfile == ModuleProfile.COMPAT;
 			Boolean clientOnly = (Boolean) info.getOrDefault("isClientOnly", false);
 			Boolean serverOnly = (Boolean) info.getOrDefault("isServerOnly", false);
 			List<String> tags = (List<String>) info.getOrDefault("categories", Collections.emptyList());
 
 			String moduleGuiClass = (String) info.getOrDefault("moduleConfigGui", "");
-			if (moduleGuiClass.length() > 0) {
+			if (!moduleGuiClass.isEmpty()) {
 				moduleGuiClasses.put(name, moduleGuiClass);
 			}
 
@@ -272,8 +279,8 @@ public class ModuleLoader {
 						});
 						prop.setRequiresMcRestart(true);
 
-						if (desc.length() > 0) desc += " ";
-						desc += "[Profile: " + modProfile.name().toUpperCase(Locale.ROOT) + "";
+						if (!desc.isEmpty()) desc += " ";
+						desc += "[Profile: " + modProfile.name().toUpperCase(Locale.ROOT);
 						if (!isDefault) {
 							desc += ", off by default!";
 						}
@@ -289,7 +296,7 @@ public class ModuleLoader {
 						} else if (prop.getString().toUpperCase(Locale.ROOT).startsWith("DISABLE")) {
 							override = ThreeState.NO;
 						} else if (!"DEFAULT".equals(prop.getString().toUpperCase(Locale.ROOT))) {
-							ModCharset.logger.warn("Invalid value for '" + name + "' override: '" + prop.getString() + ";");
+                            ModCharset.logger.warn("Invalid value for '{}' override: '{};", name, prop.getString());
 						}
 					}
 				}
@@ -312,7 +319,7 @@ public class ModuleLoader {
 				if (antideps != null) {
 					for (String dep : antideps) {
 						if (isDepPresent(dep, enabledModules)) {
-							ModCharset.logger.info("Antidependency " + dep + " is present - disabling otherwise not forced module " + name + ".");
+                            ModCharset.logger.info("Antidependency {} is present - disabling otherwise not forced module {}.", dep, name);
 							isDefault = false;
 							break;
 						}
@@ -321,7 +328,7 @@ public class ModuleLoader {
 
 				for (String s : tags) {
 					if (!categoryMap.get(s)) {
-						ModCharset.logger.info("Category " + s + " is disabled - disabling otherwise not forced module " + name + ".");
+                        ModCharset.logger.info("Category {} is disabled - disabling otherwise not forced module {}.", s, name);
 						isDefault = false;
 					}
 				}
@@ -383,23 +390,28 @@ public class ModuleLoader {
 				EnableInformation enableInfo = enableInfoMap.get(depMod);
 				if (!enableInfo.isEnabled()) {
 					if (!compatModules.contains(depMod)) {
-						ModCharset.logger.info("Module " + depMod + " requires " + joinerComma.join(unmetDependencies.get(depMod)) + ", but is not force-enabled. You can ignore this - it is not an error, just information.");
+                        ModCharset.logger.info("Module {} requires {}, but is not force-enabled. You can ignore this - it is not an error, just information.", depMod, joinerComma.join(unmetDependencies.get(depMod)));
 					}
 
 					removedCount++;
 					enabledModules.remove(depMod);
 					unmetDepKey.remove();
-				}
+				} else if (!enableInfo.canBeEnabled()) {
+                    ModCharset.logger.warn("Module {} requires {}, but is not available. This module wouldn't be enable.", depMod, joinerComma.join(unmetDependencies.get(depMod)));
+                    removedCount++;
+                    enabledModules.remove(depMod);
+                    unmetDepKey.remove();
+                }
 			}
 		}
 
 		for (String name : enabledModules) {
 			if (ModCharset.INDEV) {
-				ModCharset.logger.info("Instantiating module " + name);
+                ModCharset.logger.info("Instantiating module {}", name);
 			}
 			ASMDataTable.ASMData data = moduleData.get(name);
 			try {
-				Object o = getClass(data).newInstance();
+				Object o = getClass(data).getConstructor().newInstance();
 				loadedModules.put(name, o);
 				loadedModulesByClass.put(data.getClassName(), o);
 			} catch (Exception e) {
@@ -407,7 +419,7 @@ public class ModuleLoader {
 			}
 		}
 
-		if (unmetDependencies.size() > 0) {
+		if (!unmetDependencies.isEmpty()) {
 			List<String> depStrings = new ArrayList<>(unmetDependencies.size());
 			for (String depMod : unmetDependencies.keys()) {
 				depStrings.add(depMod + "<-[" + joinerComma.join(unmetDependencies.get(depMod)) + "]");
@@ -441,7 +453,7 @@ public class ModuleLoader {
 		iterateModules(table, CharsetModule.Instance.class.getName(), (data, instance) -> {
 			try {
 				String instString = (String) data.getAnnotationInfo().get("value");
-				if (instString == null || instString.equals("")) {
+				if (instString == null || instString.isEmpty()) {
 					getField(data).set(instance, instance);
 				} else {
 					Object inst2 = loadedModules.get(instString);
@@ -482,7 +494,7 @@ public class ModuleLoader {
 			String serverSide = (String) data.getAnnotationInfo().get("serverSide");
 			try {
 				Field f = getField(data);
-				f.set(null, Class.forName(side == Side.CLIENT ? clientSide : serverSide).newInstance());
+				f.set(null, Class.forName(side == Side.CLIENT ? clientSide : serverSide).getConstructor().newInstance());
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -559,7 +571,7 @@ public class ModuleLoader {
 					//bar.step(pair.getKey());
 					pair.getValue().invoke(loadedModules.get(pair.getKey()), o);
 				} catch (Throwable t) {
-					t.printStackTrace();
+                    ModCharset.logger.error(t);
 					throw new RuntimeException(t);
 				}
 			}
@@ -576,7 +588,7 @@ public class ModuleLoader {
 				try {
 					pair.getValue().invoke(loadedModules.get(pair.getKey()), o);
 				} catch (Throwable t) {
-					t.printStackTrace();
+					ModCharset.logger.error(t);
 					throw new RuntimeException(t);
 				}
 			}
